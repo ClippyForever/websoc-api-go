@@ -153,11 +153,21 @@ func checkExistParams(exist string, notExist string) string {
 	return exist
 }
 
+//uncomment this function to run local
+// func getResult(w http.ResponseWriter, r *http.Request) {
+// 	result := MakeRequest()
+// 	w.Header().Set("Content-Type", "application/json")
+// 	json.NewEncoder(w).Encode(result.Schools.Schools)
+// }
+
 func main() {
+	//comment 3 linese below to test local
 	lambda.Start(handleRequest)
 
 	formData := url.Values{"dsdsd": {"dsdsds"}}
 	fmt.Println(formData.Get("dsdssd"))
+
+	//uncomment  below to test local
 	// r := mux.NewRouter()
 	// r.HandleFunc("/api/", getResult).Methods("GET")
 
