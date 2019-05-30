@@ -29,76 +29,69 @@ type schools struct {
 type school struct {
 	Name        string       `xml:"school_name,attr"`
 	Comment     string       `xml:"school_comment"`
-	School_code string       `xml:"school_code,attr"`
-	Departments []Department `xml:"department"`
+	SchoolCode  string       `xml:"school_code,attr"`
+	Departments []department `xml:"department"`
 }
 
-type Department struct {
-	XMLName                     xml.Name `xml:"department"`
-	Name                        string   `xml:"dept_name,attr"`
-	Dept_Code                   string   `xml:"dept_code,attr"`
-	Department_Comment          string   `xml:"department_comment"`
-	Course_Number_Range_Comment string   `xml:"course_number_range_comment"`
-	Course_Code_Range_Comment   string   `xml:"course_code_range_comment"`
-	Courses                     []Course `xml:"course"`
+type department struct {
+	Name                     string   `xml:"dept_name,attr"`
+	DeptCode                 string   `xml:"dept_code,attr"`
+	DepartmentComment        string   `xml:"department_comment"`
+	CourseNumberNangeComment string   `xml:"course_number_range_comment"`
+	CourseCodeRangeComment   string   `xml:"course_code_range_comment"`
+	Courses                  []course `xml:"course"`
 }
 
-type Course struct {
-	XMLName          xml.Name  `xml:"course"`
-	Course_Number    string    `xml:"course_number,attr"`
-	Course_Title     string    `xml:"course_title,attr"`
+type course struct {
+	CourseNumber     string    `xml:"course_number,attr"`
+	CourseTitle      string    `xml:"course_title,attr"`
 	PrerequisiteLink string    `xml:"course_prereq_link"`
 	Comment          string    `xml:"course_comment"`
-	Sections         []Section `xml:"section"`
+	Sections         []section `xml:"section"`
 }
 
-type Section struct {
-	XMLName        xml.Name       `xml:"section"`
-	ClassCode      string         `xml:"course_code"`
-	ClassType      string         `xml:"sec_type"`
-	SectionCode    string         `xml:"sec_num"`
-	Units          string         `xml:"sec_units"`
-	FinalExam      FinalExam      `xml:"sec_final"`
-	Restrictions   string         `xml:"sec_restrictions"`
-	Status         string         `xml:"sec_status"`
-	Comment        string         `xml:"sec_comment"`
-	Sec_Instructor Instructors    `xml:"sec_instructor"`
-	Sec_Enrollment Sec_Enrollment `xml:"sec_enrollment"`
-	Sec_Meeting    Sec_Meeting    `xml:"sec_meeting"`
+type section struct {
+	ClassCode     string        `xml:"course_code"`
+	ClassType     string        `xml:"sec_type"`
+	SectionCode   string        `xml:"sec_num"`
+	Units         string        `xml:"sec_units"`
+	FinalExam     finalExam     `xml:"sec_final"`
+	Restrictions  string        `xml:"sec_restrictions"`
+	Status        string        `xml:"sec_status"`
+	Comment       string        `xml:"sec_comment"`
+	SecInstructor instructors   `xml:"sec_instructors"`
+	SecEnrollment secEnrollment `xml:"sec_enrollment"`
+	SecMeeting    secMeeting    `xml:"sec_meeting"`
 }
 
-type FinalExam struct {
-	Sec_Final_date string `xml:"sec_final_date"`
-	Sec_Final_day  string `xml:"sec_final_day"`
-	Sec_final_time string `xml:"sec_final_time"`
+type finalExam struct {
+	SecFinalDate string `xml:"sec_final_date"`
+	SecFinalDay  string `xml:"sec_final_day"`
+	SecFinalTime string `xml:"sec_final_time"`
 }
 
-type Instructors struct {
-	XMLName     xml.Name `xml:"sec_instructor"`
+type instructors struct {
 	Instructors []string `xml:"instructor"`
 }
 
-type Sec_Enrollment struct {
-	XMLName              xml.Name `xml:"sec_enrollment"`
-	MaxCapacity          string   `xml:"sec_max_enroll"`
-	NumCurrentlyEnrolled string   `xml:"sec_enrolled"`
-	NumOnWaitlist        string   `xml:"sec_waitlist"`
-	NumRequested         string   `xml:"sec_enroll_requests"`
-	NumNewOnlyReserved   string   `xml:"sec_new_only_reserved"`
+type secEnrollment struct {
+	MaxCapacity          string `xml:"sec_max_enroll"`
+	NumCurrentlyEnrolled string `xml:"sec_enrolled"`
+	NumOnWaitlist        string `xml:"sec_waitlist"`
+	NumRequested         string `xml:"sec_enroll_requests"`
+	NumNewOnlyReserved   string `xml:"sec_new_only_reserved"`
 }
 
-type Sec_Meeting struct {
-	XMLName  xml.Name  `xml:"sec_meeting"`
-	Meetings []Meeting `xml:"sec_meet"`
+type secMeeting struct {
+	Meetings []meeting `xml:"sec_meet"`
 }
 
-type Meeting struct {
-	XMLname       xml.Name `xml:"sec_meet"`
-	Sec_Days      string   `xml:"sec_days"`
-	Sec_Time      string   `xml:"sec_time"`
-	Sec_Bldg      string   `xml:"sec_bldg"`
-	Sec_Room      string   `xml:"sec_room"`
-	Sec_Room_Link string   `xml:"sec_room_link"`
+type meeting struct {
+	SecDays     string `xml:"sec_days"`
+	SecTime     string `xml:"sec_time"`
+	SecBldg     string `xml:"sec_bldg"`
+	SecRoom     string `xml:"sec_room"`
+	SecRoomLink string `xml:"sec_room_link"`
 }
 
 func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
@@ -141,8 +134,11 @@ func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 	if err != nil {
 		panic(err)
 	}
-
-	return events.APIGatewayProxyResponse{Body: string(ok), Headers: request.QueryStringParameters, StatusCode: 200}, nil
+	head := map[string]string{
+		"Access-Control-Allow-Origin":  "*",
+		"Access-Control-Allow-Headers": "Content-Type",
+	}
+	return events.APIGatewayProxyResponse{Body: string(ok), Headers: head, StatusCode: 200}, nil
 }
 
 func checkExistParams(exist string, notExist string) string {
