@@ -9,17 +9,17 @@ Go Here [Go](https://971k1pm7de.execute-api.us-west-1.amazonaws.com/dev/websoc?d
 
 # List of parameters:
 
-*department
-*term
-*GE
-*courseNum
-*courseCodes
-*instructorName
-*units
-*endTime
-*startTime
-*fullCourses
-*building
+* department
+* term
+* GE
+* courseNum
+* courseCodes
+* instructorName
+* units
+* endTime
+* startTime
+* fullCourses
+* building
 
 Full Link: https://971k1pm7de.execute-api.us-west-1.amazonaws.com/dev/websoc?department=COMPSCI&term=2019%20Fall&GE=ANY&courseNum=&courseCodes=&instructorName=&units=&endTime=&startTime=&fullCourses=ANY&building=
 
