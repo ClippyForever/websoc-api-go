@@ -61,7 +61,7 @@ type section struct {
 	Comment       string        `xml:"sec_comment"`
 	SecInstructor instructors   `xml:"sec_instructors"`
 	SecEnrollment secEnrollment `xml:"sec_enrollment"`
-	SecMeeting    secMeeting    `xml:"sec_meeting"`
+	SecMeeting    secMeeting    `xml:"sec_meetings"`
 }
 
 type finalExam struct {
